@@ -130,15 +130,15 @@ namespace lab1
             }
         }
 
-        public V4DataList ConvertToV4DataList()
+        public static explicit operator V4DataList(V4DataArray array)
         {
-            V4DataList result = new V4DataList(base.ObjectType, new DateTime());
+            V4DataList result = new V4DataList(array.ObjectType, array.LastChangeDate);
 
-            for (int x = 0; x < OxCount; ++x)
+            for (int x = 0; x < array.OxCount; ++x)
             {
-                for (int y = 0; y < OyCount; ++y)
+                for (int y = 0; y < array.OyCount; ++y)
                 {
-                    result.Add(new DataItem(new Vec2(x * GridSteps.X, y * GridSteps.Y), Grid[x, y]));
+                    result.Add(new DataItem(new Vec2(x * array.GridSteps.X, y * array.GridSteps.Y), array.Grid[x, y]));
                 }
             }
 
@@ -226,7 +226,7 @@ namespace lab1
             V4DataArray dataArray = new V4DataArray("data array", new DateTime(), 2, 3, new Vec2(0.5f, 0.75f), Fv2Methods.LinearFunc);
             Console.WriteLine(dataArray.ToLongString("f4"));
 
-            V4DataList dataList = dataArray.ConvertToV4DataList();
+            V4DataList dataList = (V4DataList) dataArray;
             Console.WriteLine(dataList.ToLongString("f3"));
 
             Console.WriteLine($"dataArray: count - {dataArray.Count} ; max from origin - {dataArray.MaxFromOrigin}");
