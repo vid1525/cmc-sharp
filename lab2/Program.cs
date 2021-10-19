@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 
 using Vec2 = System.Numerics.Vector2;
-using Collections = System.Collections.Generic;
 
 
 namespace lab1
@@ -27,7 +28,7 @@ namespace lab1
     
     delegate Vec2 Fv2Vector2(Vec2 v2);
 
-    abstract class V4Data
+    abstract class V4Data : IEnumerable<DataItem>
     {
         public string ObjectType {get;}
         public DateTime LastChangeDate {get;}
@@ -38,6 +39,12 @@ namespace lab1
             this.LastChangeDate = date;
         }
 
+        public abstract IEnumerator<DataItem> GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
+        }
+
         public override string ToString() => $"type: {ObjectType}; last change date: {LastChangeDate}";
         public abstract int Count {get;}
         public abstract float MaxFromOrigin {get;}
@@ -46,12 +53,17 @@ namespace lab1
 
     class V4DataList : V4Data
     {
-        public Collections.List<DataItem> Items {get;}
+        public List<DataItem> Items {get;}
 
         public V4DataList(string objectType, DateTime date)
             : base(objectType, date)
         {
-            this.Items = new Collections.List<DataItem>();
+            this.Items = new List<DataItem>();
+        }
+
+        public override IEnumerator<DataItem> GetEnumerator()
+        {
+            return Items.GetEnumerator();
         }
 
         public bool Add(DataItem newItem)
@@ -130,6 +142,59 @@ namespace lab1
             }
         }
 
+        class V4DataArrayEnumerator : IEnumerator<DataItem>
+        {
+            private V4DataArray DataArray;
+            private int PositionX;
+            private int PositionY;
+
+            public V4DataArrayEnumerator(V4DataArray dataArray)
+            {
+                DataArray = dataArray;
+                PositionX = 0;
+                PositionY = -1;
+            }
+            public DataItem Current
+            {
+                get
+                {
+                    if (PositionY < 0 || DataArray.OyCount <= PositionY || PositionX < 0 || DataArray.OxCount <= PositionX)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                    return new DataItem(new Vec2(PositionX * DataArray.GridSteps.X, PositionY * DataArray.GridSteps.Y), DataArray.Grid[PositionX, PositionY]);
+                }
+            }
+
+            object IEnumerator.Current => throw new NotImplementedException();
+
+            public bool MoveNext()
+            {
+                PositionY++;
+                if (PositionY < DataArray.OyCount) {
+                    return true;
+                }
+                PositionX++;
+                if (PositionX < DataArray.OxCount) {
+                    PositionY = 0;
+                    return true;
+                }
+                return false;
+            }
+            public void Reset()
+            {
+                PositionY = -1;
+                PositionX = 0;
+            }
+
+            public void Dispose() {}
+        }
+
+        public override IEnumerator<DataItem> GetEnumerator()
+        {
+            return new V4DataArrayEnumerator(this);
+        }
+
         public static explicit operator V4DataList(V4DataArray array)
         {
             V4DataList result = new V4DataList(array.ObjectType, array.LastChangeDate);
@@ -167,11 +232,11 @@ namespace lab1
     {
         public int Count {get => DataList.Count;}
 
-        private Collections.List<V4Data> DataList;
+        private List<V4Data> DataList;
 
         public V4MainCollection()
         {
-            DataList = new Collections.List<V4Data>();
+            DataList = new List<V4Data>();
         }
 
         public bool Contains(string id)
