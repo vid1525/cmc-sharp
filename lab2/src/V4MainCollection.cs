@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 
@@ -15,10 +16,50 @@ namespace lab2
             DataList = new List<V4Data>();
         }
 
-        /// LINQ
-        /// public float GetMaxAbsFieldValue {get;}
-        /// public IEnumerable<DataItem> GetDecreasingValues {get;}
-        /// public IEnumerable<Vec2> GetArrayAndListDifferenceValues {get;}
+        public float GetMaxAbsFieldValue
+        {
+            get
+            {
+                try
+                {
+                    return DataList.Where(
+                        x => x.GetType().ToString() == "lab2.V4DataArray" && x.Count > 0
+                    ).Select(x => (from tmp in x select tmp.Values.Length()).Max()).Max();
+                }
+                catch
+                {
+                    return float.NaN;
+                }
+            }
+        }
+
+        public IEnumerable<DataItem> GetValuesInDecreasingOrderByDistance
+        {
+            get
+            {
+                try
+                {
+                    return DataList.Select(x => (from tmp in x select tmp)).Aggregate((x, y) => x.Concat(y)).OrderBy(x => -x.Coordinates.Length());
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+        public IEnumerable<Vec2> GetArrayAndListDifferenceCoordinates
+        {
+            get
+            {
+                var dataArrayCoord = DataList.Where(x => x.GetType().ToString() == "lab2.V4DataArray").Select(
+                    x => (from tmp in x select tmp.Coordinates)
+                ).Aggregate((x, y) => x.Concat(y)).Distinct();
+                var dataListCoord = DataList.Where(x => x.GetType().ToString() == "lab2.V4DataList").Select(
+                    x => (from tmp in x select tmp.Coordinates)
+                ).Aggregate((x, y) => x.Concat(y));
+                return dataArrayCoord.Except(dataListCoord);
+            }
+        }
 
         public bool Contains(string id)
         {

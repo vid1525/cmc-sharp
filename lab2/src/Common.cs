@@ -24,6 +24,21 @@ namespace lab2
         {
             values = new System.Numerics.Vector2(x, y);
         }
+
+        public override bool Equals(object other)
+        {
+            if (ReferenceEquals(other, null)) return false;
+
+            if (ReferenceEquals(this, other)) return true;
+
+            return values.Equals(((Vec2) other).values);
+        }
+
+        public override int GetHashCode() => values.GetHashCode();
+
+        public static bool operator ==(Vec2 x, Vec2 y) => x.values == y.values;
+
+        public static bool operator !=(Vec2 x, Vec2 y) => x.values != y.values;
     }
     delegate Vec2 Fv2Vector2(Vec2 v2);
 }
