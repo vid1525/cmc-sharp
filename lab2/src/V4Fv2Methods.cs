@@ -1,6 +1,3 @@
-using Vec2 = System.Numerics.Vector2;
-
-
 namespace lab2
 {
     static class Fv2Methods

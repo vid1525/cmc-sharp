@@ -1,7 +1,5 @@
 using System;
 
-using Vec2 = System.Numerics.Vector2;
-
 
 namespace lab2
 {

@@ -7,6 +7,7 @@ namespace lab2
 {
     abstract class V4Data : IEnumerable<DataItem>
     {
+        protected const string DATA_FORMAT = "yyyy-MM-dd HH:mm:ss.fff";
         public string ObjectType {get; protected set;}
         public DateTime LastChangeDate {get; protected set;}
 

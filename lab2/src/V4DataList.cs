@@ -3,8 +3,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text.Json;
 
-using Vec2 = System.Numerics.Vector2;
-
 
 namespace lab2
 {
@@ -29,7 +27,9 @@ namespace lab2
             {
                 using (StreamWriter writer = new StreamWriter(filename))
                 {
-                    writer.Write(JsonSerializer.Serialize<V4DataList>(v4));
+                    writer.WriteLine(v4.ObjectType);
+                    writer.WriteLine(v4.LastChangeDate.ToString(DATA_FORMAT));
+                    writer.Write(JsonSerializer.Serialize<List<DataItem>>(v4.Items));
                 }
             }
             catch
@@ -45,7 +45,14 @@ namespace lab2
             {
                 using (StreamReader reader = new StreamReader(filename))
                 {
-                    v4 = JsonSerializer.Deserialize<V4DataList>(reader.ReadToEnd());
+                    string objType = reader.ReadLine();
+                    DateTime date = DateTime.ParseExact(reader.ReadLine(), DATA_FORMAT, System.Globalization.CultureInfo.InvariantCulture);
+                    List<DataItem> items = JsonSerializer.Deserialize<List<DataItem>>(reader.ReadToEnd());
+                    v4 = new V4DataList(objType, date);
+                    foreach (var x in items)
+                    {
+                        v4.Add(x);
+                    }
                 }
             }
             catch

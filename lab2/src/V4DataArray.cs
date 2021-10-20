@@ -3,15 +3,11 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-using Vec2 = System.Numerics.Vector2;
-
 
 namespace lab2
 {
     class V4DataArray : V4Data
     {
-        private const string DATA_FORMAT = "yyyy-MM-dd HH:mm:ss.fff";
-
         public int OxCount {get; protected set;}
         public int OyCount {get; protected set;}
         public Vec2 GridSteps {get; protected set;}
@@ -100,7 +96,7 @@ namespace lab2
                 using (BinaryWriter writer = new BinaryWriter(File.Open(filename, FileMode.OpenOrCreate)))
                 {
                     writer.Write(v4.ObjectType);
-                    writer.Write(v4.LastChangeDate.ToString(V4DataArray.DATA_FORMAT));
+                    writer.Write(v4.LastChangeDate.ToString(DATA_FORMAT));
                     writer.Write(v4.OxCount);
                     writer.Write(v4.OyCount);
                     writer.Write((double) v4.GridSteps.X);
@@ -131,7 +127,7 @@ namespace lab2
                 using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
                 {
                     string objectType = reader.ReadString();
-                    DateTime date = DateTime.ParseExact(reader.ReadString(), V4DataArray.DATA_FORMAT, System.Globalization.CultureInfo.InvariantCulture);
+                    DateTime date = DateTime.ParseExact(reader.ReadString(), DATA_FORMAT, System.Globalization.CultureInfo.InvariantCulture);
                     int xCount = reader.ReadInt32();
                     int yCount = reader.ReadInt32();
                     Vec2 gridSteps = new Vec2();
