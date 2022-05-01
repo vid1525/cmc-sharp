@@ -1,0 +1,176 @@
+﻿<Window x:Class="wpf_application.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wpf_application"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="500" Closing="CloseMainWindow">
+    <Grid>
+        <Menu VerticalAlignment="Top" HorizontalAlignment="Left">
+            <MenuItem Header="File" FontSize="36">
+                <MenuItem Header="New" x:Name="NewBenchmark" Click="MakeNewBenchmark" FontSize="24"/>
+                <MenuItem Header="Open" x:Name="FileOpen" Click="OpenFile" FontSize="24"/>
+                <MenuItem Header="Save" x:Name="FileSave" Click="SaveFile" FontSize="24"/>
+            </MenuItem>
+            <MenuItem Header="Edit" FontSize="36">
+                <MenuItem Header="Add VMTime" x:Name="VmTime" Click="AddVmTime" FontSize="24"/>
+                <MenuItem Header="Add VMAccuracy" x:Name="VmAccuracy" Click="AddVmAccuracy" FontSize="24"/>
+            </MenuItem>
+        </Menu>
+        <ListBox Name="CalculationParams" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <TextBlock Text="Calculating function" FontSize="14" FontWeight="Bold"/>
+            <ListBoxItem>
+                <ComboBox x:Name="CalculatingFunction" FontSize="12" Height="25" Width="100"  VerticalAlignment="Center">
+                    <TextBlock>vmsExp</TextBlock>
+                    <TextBlock>vmdExp</TextBlock>
+                    <TextBlock>vmsErf</TextBlock>
+                    <TextBlock>vmdErf</TextBlock>
+                </ComboBox>
+            </ListBoxItem>
+            <TextBlock Text="Grid points count" FontSize="14" FontWeight="Bold"/>
+            <ListBoxItem>
+                <TextBox x:Name="GridPointsCount" Height="25" Width="100"/>
+            </ListBoxItem>
+            <TextBlock Text="Left boundary" FontSize="14" FontWeight="Bold"/>
+            <ListBoxItem>
+                <TextBox x:Name="LeftBoundaryOfRange" Height="25" Width="100"/>
+            </ListBoxItem>
+            <TextBlock Text="Right boundary" FontSize="14" FontWeight="Bold"/>
+            <ListBoxItem>
+                <TextBox x:Name="RightBoundaryOfRange" Height="25" Width="100"/>
+            </ListBoxItem>
+        </ListBox>
+        <ListBox x:Name="CalculationResults"  Margin="200,25,0,0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="VMTimes elements: " FontSize="14" FontWeight="Bold"/>
+                <TextBlock Text="(Total count: " FontSize="14"/>
+                <TextBlock Text="{Binding Path=Benchmark.TimeResults.Count}" FontSize="14"/>
+                <TextBlock Text=")" FontSize="14"/>
+            </StackPanel>
+            <ListBox x:Name="VmTimesCollection" MaxHeight="100" ItemsSource="{Binding Benchmark.TimeResults}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Points count: "/>
+                                <TextBlock Text="{Binding Path=GridParams.ArgsVectorLength}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Range: ["/>
+                                <TextBlock Text="{Binding Path=GridParams.GridRange[0]}"/>
+                                <TextBlock Text=", "/>
+                                <TextBlock Text="{Binding Path=GridParams.GridRange[1]}"/>
+                                <TextBlock Text="]"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Grid step: "/>
+                                <TextBlock Text="{Binding Path=GridParams.GridStep}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Function: "/>
+                                <TextBlock Text="{Binding Path=GridParams.VMfParameter}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="Additional info:" FontSize="14" FontWeight="Bold"/>
+            <TextBlock>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="VML_HA time (ms): "/>
+                        <TextBlock Text="{Binding ElementName=VmTimesCollection, Path=SelectedItem.VmlHaExecTime}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="VML_EP time (ms): "/>
+                        <TextBlock Text="{Binding ElementName=VmTimesCollection, Path=SelectedItem.VmlEpExecTime}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Without MKL time (ms): "/>
+                        <TextBlock Text="{Binding ElementName=VmTimesCollection, Path=SelectedItem.WithoutMklExecTime}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Coef VML_HA: "/>
+                        <TextBlock Text="{Binding ElementName=VmTimesCollection,Path=SelectedItem.CoefOfExecVmlHa}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Coef VML_EP: "/>
+                        <TextBlock Text="{Binding ElementName=VmTimesCollection, Path=SelectedItem.CoefOfExecVmlEp}"/>
+                    </StackPanel>
+                </StackPanel>
+            </TextBlock>
+            <TextBlock Text="Minimal coefficients:" FontSize="14" FontWeight="Bold"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="VML_HA: "/>
+                    <TextBlock Text="{Binding Path=Benchmark.MinCoefOfExecVmlHa}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="VML_EP: "/>
+                    <TextBlock Text="{Binding Path=Benchmark.MinCoefOfExecVmlEp}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="VMAccuracy elements: " FontSize="14" FontWeight="Bold"/>
+                <TextBlock Text="(Total count: " FontSize="14"/>
+                <TextBlock Text="{Binding Path=Benchmark.AccuracyResults.Count}" FontSize="14"/>
+                <TextBlock Text=")" FontSize="14"/>
+            </StackPanel>
+            <ListBox x:Name="VmAccuraciesCollection" MaxHeight="100" ItemsSource="{Binding Benchmark.AccuracyResults}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Points count: "/>
+                                <TextBlock Text="{Binding Path=GridParams.ArgsVectorLength}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Range: ["/>
+                                <TextBlock Text="{Binding Path=GridParams.GridRange[0]}"/>
+                                <TextBlock Text=", "/>
+                                <TextBlock Text="{Binding Path=GridParams.GridRange[1]}"/>
+                                <TextBlock Text="]"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Grid step: "/>
+                                <TextBlock Text="{Binding Path=GridParams.GridStep}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Function: "/>
+                                <TextBlock Text="{Binding Path=GridParams.VMfParameter}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="Additional info:" FontSize="14" FontWeight="Bold"/>
+            <TextBlock>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Max abs diff: "/>
+                        <TextBlock Text="{Binding ElementName=VmAccuraciesCollection, Path=SelectedItem.MaxAbsDiffValue}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Argument with max abs diff: "/>
+                        <TextBlock Text="{Binding ElementName=VmAccuraciesCollection, Path=SelectedItem.MaxAbsDiffArgument}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Function value VML_HA: "/>
+                        <TextBlock Text="{Binding ElementName=VmAccuraciesCollection, Path=SelectedItem.MaxAbsDiffValueVmlHa}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Function value VML_EP: "/>
+                        <TextBlock Text="{Binding ElementName=VmAccuraciesCollection, Path=SelectedItem.MaxAbsDiffValueVmlEp}"/>
+                    </StackPanel>
+                </StackPanel>
+            </TextBlock>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Current benchmark is not changed: " FontSize="14" FontWeight="Bold"/>
+                <TextBlock Text="{Binding Path=DataSaved}" FontSize="14"/>
+            </StackPanel>
+        </ListBox>
+    </Grid>
+</Window>
