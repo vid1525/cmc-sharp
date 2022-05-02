@@ -1,1 +1,1 @@
-cmc prak C# 5 semester
+cmc prak C# 5/6 semester
