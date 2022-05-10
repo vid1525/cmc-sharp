@@ -184,11 +184,10 @@ namespace calculations
             vmAccuracy.MaxAbsDiffArgument = absDiffArg;
             vmAccuracy.MaxAbsDiffValueVmlHa = absDiffHaValue;
             vmAccuracy.MaxAbsDiffValueVmlEp = absDiffEpValue;
-
             AccuracyResults.Add(vmAccuracy);
         }
 
-        [DllImport("pinvoke_dll_lib.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("..\\..\\..\\..\\lab4\\x64\\Debug\\pinvoke_dll_lib.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void CalculateFunction(
             int function_code, int points_count, float[] range, ref float noMKLtime,
             ref float haTime, ref float epTime, ref float maxAbsDiff, ref float maxAbsDiffArg,
