@@ -13,7 +13,7 @@ namespace ViewModel
 
         public ViewData()
         {
-            Input = new InputChecker(Splines.SPf.CUBIC_FUNC, 0, 0, 0, 0, 0, 0, 0, 0);
+            Input = new InputChecker(Splines.SPf.CUBIC_FUNC, 3, 3, 0, 1, 0, 0, 0, 0);
         }
 
         public void UpdateMeasuredData()

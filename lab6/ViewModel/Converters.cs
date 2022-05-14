@@ -14,7 +14,14 @@ namespace ViewModel
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return double.Parse((string)value, culture);
+            try
+            {
+                return double.Parse((string)value, culture);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
     }
 
@@ -27,7 +34,14 @@ namespace ViewModel
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Int32.Parse((string)value, culture);
+            try
+            {
+                return Int32.Parse((string)value, culture);
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 
