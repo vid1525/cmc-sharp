@@ -179,7 +179,14 @@ namespace wpf_application
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return double.Parse((string)value, culture);
+            try
+            {
+                return double.Parse((string)value, culture);
+            }
+            catch(Exception)
+            {
+                return 0;
+            }
         }
     }
 
@@ -192,7 +199,14 @@ namespace wpf_application
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Int32.Parse((string)value, culture);
+            try
+            {
+                return Int32.Parse((string)value, culture);
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 
@@ -288,7 +302,7 @@ namespace wpf_application
 
             SplinesDataValues.Add("SECOND SECOND DER INPUT VALUES:");
             SplinesDataValues.Add($"Second der in input:\na: {Input.SecondLeftSecondDerValue}\nb: {Input.SecondRightSecondDerValue}");
-            SplinesDataValues.Add("MKL first result:");
+            SplinesDataValues.Add("MKL second result:");
             SplinesDataValues.Add(
                 $"Spline values:\na: {SpData.SecondSplineValues[0]}\na+h: {SpData.SecondSplineValues[1]}\nb-h: " +
                 $"{SpData.SecondSplineValues[SpData.Sp.PointsCount - 2]}\nb: {SpData.SecondSplineValues[SpData.Sp.PointsCount - 1]}");

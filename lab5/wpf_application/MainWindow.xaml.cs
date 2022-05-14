@@ -26,7 +26,7 @@ namespace wpf_application
         {
             MainWindowInfo = new ViewData();
 
-            MainWindowInfo.Input = new InputChecker(Splines.SPf.CUBIC_FUNC, 0, 0, 0, 0, 0, 0, 0, 0);
+            MainWindowInfo.Input = new InputChecker(Splines.SPf.CUBIC_FUNC, 3, 3, 0, 1, 0, 0, 0, 0);
             InitializeComponent();
 
             this.DataContext = MainWindowInfo;
