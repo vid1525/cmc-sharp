@@ -1,0 +1,14 @@
+Debug
+x64*
+pinvoke_dll_lib/x64*
+pinvoke_dll_lib/Debug*
+Splines/bin*
+Splines/obj*
+Splines.Tests/bin*
+Splines.Tests/obj*
+ViewModel/bin*
+ViewModel/obj*
+ViewModel.Tests/bin*
+ViewModel.Tests/obj*
+wpf_application/bin*
+wpf_application/obj*
