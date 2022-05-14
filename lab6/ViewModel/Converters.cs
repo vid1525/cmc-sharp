@@ -18,7 +18,7 @@ namespace ViewModel
             {
                 return double.Parse((string)value, culture);
             }
-            catch (Exception)
+            catch
             {
                 return 0;
             }
