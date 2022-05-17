@@ -34,7 +34,7 @@ namespace ViewModel.Tests
         [Fact]
         public void TestUpdateMdAndMdIsNull()
         {
-            var viewData = new ViewData();
+            var viewData = new ViewData(null, null);
 
             viewData.Input = new InputChecker(Splines.SPf.CUBIC_FUNC, 5, 10, 0, 10, 0, 0, 0, 0);
 
@@ -48,7 +48,7 @@ namespace ViewModel.Tests
         [Fact]
         public void TestUpdateSpAndMdIsNull()
         {
-            var viewData = new ViewData();
+            var viewData = new ViewData(null, null);
 
             viewData.Input = new InputChecker(Splines.SPf.CUBIC_FUNC, 5, 10, 0, 10, 0, 0, 0, 0);
 
@@ -67,7 +67,7 @@ namespace ViewModel.Tests
         [Fact]
         public void TestUpdateSpOk()
         {
-            var viewData = new ViewData();
+            var viewData = new ViewData(null, null);
 
             viewData.Input = new InputChecker(Splines.SPf.CUBIC_FUNC, 5, 10, 0, 10, 0, 0, 0, 0);
 
@@ -85,7 +85,7 @@ namespace ViewModel.Tests
         [Fact]
         public void TestDoubleMdUpdate()
         {
-            var viewData = new ViewData();
+            var viewData = new ViewData(null, null);
 
             viewData.Input = new InputChecker(Splines.SPf.CUBIC_FUNC, 5, 10, 0, 10, 0, 0, 0, 0);
 
@@ -108,7 +108,7 @@ namespace ViewModel.Tests
         public void TestDoubleMdAndSpUpdate()
         {
             // first
-            var viewData = new ViewData();
+            var viewData = new ViewData(null, null);
 
             viewData.Input = new InputChecker(Splines.SPf.CUBIC_FUNC, 5, 10, 0, 10, 0, 0, 0, 0);
 

@@ -13,14 +13,10 @@
         <view_model_ns:StringToIntConverter x:Key="IntConv"/>
         <view_model_ns:StringToFunctionConverter x:Key="FuncConv"/>
     </Window.Resources>
-    <Window.CommandBindings>
-        <CommandBinding Command="local:MenuCommands.MeasuredData" CanExecute="MdCanExecute" Executed="MdExecuted"/>
-        <CommandBinding Command="local:MenuCommands.Splines" CanExecute="SpCanExecute" Executed="SpExecuted"/>
-    </Window.CommandBindings>
     <Grid>
         <Menu VerticalAlignment="Top" HorizontalAlignment="Right">
-            <Button Command="local:MenuCommands.MeasuredData" FontSize="24" Content="MeasuredData"/>
-            <Button Command="local:MenuCommands.Splines" FontSize="24" Content="Splines"/>
+            <Button Command="{Binding MeasuredDataCmd}" FontSize="24" Content="MeasuredData"/>
+            <Button Command="{Binding SplinesDataCmd}" FontSize="24" Content="Splines"/>
         </Menu>
         <ListBox Name="CalculationParams" Width="160" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,25,0,0">
             <TextBlock Text="Calculating function" FontSize="14" FontWeight="Bold"/>
